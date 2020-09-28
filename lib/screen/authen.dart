@@ -9,6 +9,19 @@ class _AuthenState extends State<Authen> {
   //E
   double amount = 150.0;
   double size = 250.0;
+  String emailString, passwordString;
+  final formkey = GlobalKey<FormState>();
+
+  bool checkSpace(String value) {
+    //check Space
+    bool result = false;
+    if (value.length == 0) {
+      //have space
+      result = true;
+    }
+    return result;
+  }
+
   Widget showLogo() {
     return Container(
       width: amount,
@@ -50,6 +63,14 @@ class _AuthenState extends State<Authen> {
               color: Colors.orange[600],
             ),
             hintText: 'abc@email.com'),
+        validator: (String value) {
+          if (checkSpace(value)) {
+            return 'Please in E-mail';
+          }
+        },
+        onSaved: (String value) {
+          emailString = value;
+        },
       ),
     );
   }
@@ -75,6 +96,34 @@ class _AuthenState extends State<Authen> {
           ),
           hintText: 'More 6 Charactor',
         ),
+        validator: (String value) {
+          if (checkSpace(value)) {
+            return 'Password Empty';
+          }
+        },
+        onSaved: (String value) {
+          passwordString = value;
+        },
+      ),
+    );
+  }
+
+  Widget singInButton(BuildContext context) {
+    return Expanded(
+      child: FlatButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        color: Colors.orange[500],
+        child: Text(
+          'Sign In',
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: () {
+          print('you click login');
+          formkey.currentState.save();
+          print('email=$emailString,password= $passwordString');
+        },
       ),
     );
   }
@@ -82,12 +131,32 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      alignment: Alignment(0, -1),
-      padding: EdgeInsets.only(top: 70.0),
-      child: Column(
-        children: <Widget>[showLogo(), showname(),emailTextFormfeild(),passwordText()],
+      resizeToAvoidBottomPadding: false,
+      body: Container(
+        alignment: Alignment(0, -1),
+        padding: EdgeInsets.only(top: 70.0),
+        child: Form(
+          key: formkey,
+          child: Column(
+            children: <Widget>[
+              showLogo(),
+              showname(),
+              emailTextFormfeild(),
+              passwordText(),
+              Container(
+                margin: EdgeInsets.only(top: 15.0),
+                alignment: Alignment.center,
+                width: size,
+                child: Row(
+                  children: <Widget>[
+                    singInButton(context),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }

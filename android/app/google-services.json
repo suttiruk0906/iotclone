@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "91723802309",
+    "firebase_url": "https://frgrjjdkj.firebaseio.com",
+    "project_id": "frgrjjdkj",
+    "storage_bucket": "frgrjjdkj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91723802309:android:e07bc5232a1b84e42bf2ac",
+        "android_client_info": {
+          "package_name": "com.boy.iot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91723802309-qk59bqkmobqbj4u7lqm4l96l2c4l8n8s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDedKqToPARH7KV1hSRUNEpnY5c64Jy6lE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91723802309-qk59bqkmobqbj4u7lqm4l96l2c4l8n8s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
