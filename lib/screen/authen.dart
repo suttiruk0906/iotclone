@@ -11,7 +11,7 @@ class _AuthenState extends State<Authen> {
   double size = 250.0;
   String emailString, passwordString;
   final formkey = GlobalKey<FormState>();
-
+  final scaffoldkey = GlobalKey<ScaffoldState>();
   bool checkSpace(String value) {
     //check Space
     bool result = false;
@@ -131,6 +131,7 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldkey,
       resizeToAvoidBottomPadding: false,
       body: Container(
         alignment: Alignment(0, -1),
