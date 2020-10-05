@@ -1,15 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:iot/screen/my-service.dart';
+import 'package:firebase_core/firebase_core.dart';
 class Authen extends StatefulWidget {
   @override
   _AuthenState createState() => _AuthenState();
 }
 
 class _AuthenState extends State<Authen> {
-  //E
+
   double amount = 150.0;
   double size = 250.0;
   String emailString, passwordString;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final formkey = GlobalKey<FormState>();
   final scaffoldkey = GlobalKey<ScaffoldState>();
   bool checkSpace(String value) {
@@ -17,7 +20,7 @@ class _AuthenState extends State<Authen> {
     bool result = false;
     if (value.length == 0) {
       //have space
-      result = true;
+      result = true;  
     }
     return result;
   }
@@ -107,6 +110,20 @@ class _AuthenState extends State<Authen> {
       ),
     );
   }
+void checkAuthen(BuildContext context) async{
+    await firebaseAuth.signInWithEmailAndPassword(
+        email: emailString,password: passwordString)
+      .then((objValue){
+        moveToMyService(context);}).catchError((objValue){
+      String error = objValue.message;
+      print('error => $error');
+    });
+ }
+  void moveToMyService(BuildContext buildContext){
+    var myServiceRoute = MaterialPageRoute(builder: (BuildContext buildContext) => MyService());
+    Navigator.of(buildContext)
+    .pushAndRemoveUntil(myServiceRoute, (Route<dynamic>route) => false);
+  }
 
   Widget singInButton(BuildContext context) {
     return Expanded(
@@ -120,15 +137,20 @@ class _AuthenState extends State<Authen> {
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () {
-          print('you click login');
-          formkey.currentState.save();
-          print('email=$emailString,password= $passwordString');
+           if (formkey.currentState.validate()){
+             formkey.currentState.save();
+             checkAuthen(context);
+           }
         },
       ),
     );
   }
 
   @override
+  void initState() {
+    super.initState();
+    
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldkey,
