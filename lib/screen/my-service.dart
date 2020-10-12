@@ -1,5 +1,7 @@
 //import 'dart:html';
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_web/flutter_native_web.dart';
+import 'package:iot/screen/authen.dart';
 
 class MyService extends StatefulWidget {
   @override
@@ -23,8 +26,8 @@ class _MyServiceState extends State<MyService> {
   String temp_inside ='https://pub.dev/packages/flutter_native_web/install';
   WebController webController;
   String nameLogin= "",uidString;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
+  FirebaseAuth firebaseAuthMyService = FirebaseAuth.instance;
+   FirebaseAuth firebaseAuthMy = FirebaseAuth.instance;
 
 
   void onWebCreatTempInside(webController){
@@ -90,11 +93,41 @@ Widget button(){
       ),
     );
   }
-
+  Widget singOutButton(){
+    return IconButton(
+      icon: Icon(Icons.exit_to_app),
+      tooltip: 'Sing Out',
+      onPressed: (){
+      signOut2();
+        },
+    );
+    }
+  
+  void signOut()async{
+    await firebaseAuthMy.signOut().then((objValue){
+      print("Exit");
+      exit(0);
+    });
+  }
+  Future<void> signOut2()async{
+await firebaseAuthMyService.signOut().then((reponse){
+  MaterialPageRoute materialPageRoute=
+  MaterialPageRoute(builder:(BuildContext context){
+    return Authen();
+  });
+  Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic>route) {
+    return false;
+  });
+});
+  }
 
   Widget build(BuildContext context){
     FlutterNativeWeb flutterNativeWebTempInside = new FlutterNativeWeb(onWebCreated: onWebCreatTempInside,gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[Factory<OneSequenceGestureRecognizer>(()=> TapGestureRecognizer(),),].toSet(),);
     return Scaffold(
+      appBar: AppBar(
+        title:Text('Smart Crab'),
+        actions: [singOutButton()],
+      ),
       body: Center(
         child: Container(
           decoration: BoxDecoration(
